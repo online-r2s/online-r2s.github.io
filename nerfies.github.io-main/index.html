@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="description" content="RealSimLoop couples vision feedback with differentiable reduced-order simulation for online adaptation of deformable objects.">
+  <meta name="keywords" content="RealSimLoop, Real-to-Sim Adaptation, Differentiable Simulation, Reduced-Order Simulation, Vision Feedback">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>RealSimLoop: Online Real-to-Sim Adaptation via Differentiable Reduced-Order Simulation with Vision Feedback</title>
+
+<script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+      dataLayer.push(arguments);
+    }
+
+    gtag('js', new Date());
+
+    gtag('config', 'G-PYVRSFMDRL');
+  </script>
+  
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro"
+        rel="stylesheet">
+
+  <link rel="stylesheet" href="./static/css/bulma.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-carousel.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-slider.min.css">
+  <link rel="stylesheet" href="./static/css/fontawesome.all.min.css">
+  <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="./static/css/index.css">
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+<script defer src="./static/js/fontawesome.all.min.js"></script>
+<script src="./static/js/bulma-slider.min.js"></script>
+</head>
+<body>
+<section class="hero">
+  <div class="hero-body">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="column has-text-centered">
+          <h1 class="title is-3 publication-title">RealSimLoop: Online Real-to-Sim Adaptation via Differentiable Reduced-Order Simulation with Vision Feedback</h1>
+          <h2 class="title is-size-5" style="color: red">SIGGRAPH Asia 2026 Conference Papers</h2>
+          <div class="is-size-5 publication-authors">
+            <span class="author-block">Zhihao Cen<sup>1</sup>,</span>
+            <span class="author-block">Chuhua Xian<sup>1, *</sup>,</span>
+            <span class="author-block">Hailin Sun<sup>2</sup>,</span>
+            <span class="author-block">Yuliang Liufu<sup>2</sup>,</span>
+            <span class="author-block">Zhen Zhang<sup>2</sup>,</span>
+            <span class="author-block">Xiangyu Chu<sup>2</sup>,</span>
+            <span class="author-block">Hongmin Cai<sup>1</sup>,</span>
+            <span class="author-block">Yunbo Zhang<sup>3</sup>,</span>
+            <span class="author-block">Guoxin Fang<sup>2, *</sup></span>
+          </div>
+        </div>
+      </div>
+      <div class="column has-text-centered">
+        <div class="is-size-6 publication-authors">
+          <span class="author-block">1. South China University of Technology, China</span>
+        </div>
+        <div class="is-size-6 publication-authors">
+          <span class="author-block">2. The Chinese University of Hong Kong, China</span>
+        </div>
+        <div class="is-size-6 publication-authors">
+          <span class="author-block">3. Hong Kong Institute of Science &amp; Innovation, CAS, Hong Kong, China</span>
+        </div>
+        <div class="is-size-6 publication-authors">
+          <span class="author-block">* Corresponding authors (Email: chhxian@scut.edu.cn, guoxinfang@cuhk.edu.hk)</span>
+        </div>
+      </div>
+      <div class="column has-text-centered">
+        <div class="publication-links">
+          <span class="link-block">
+            <a href="https://arxiv.org/abs/2609.09828" class="external-link button is-normal is-rounded is-dark">
+              <span class="icon"><i class="ai ai-arxiv" aria-hidden="true"></i></span>
+              <span>arXiv</span>
+            </a>
+          </span>
+          <span class="link-block">
+            <a href="https://www.youtube.com/watch?v=1HF4mFlgFvI" class="external-link button is-normal is-rounded is-dark">
+              <span class="icon"><i class="fab fa-youtube" aria-hidden="true"></i></span>
+              <span>Video</span>
+            </a>
+          </span>
+          <span class="link-block">
+            <button class="button is-normal is-rounded is-dark" disabled aria-label="Code is not available yet">
+              <span class="icon"><i class="fab fa-github" aria-hidden="true"></i></span>
+              <span>Code (coming soon)</span>
+            </button>
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="hero teaser">
+  <div class="container is-max-desktop">
+    <div class="hero-body">
+      <img src="./static/images/fig-teaser.png" class="interpolation-image"
+           alt="RealSimLoop: multi-view vision feedback drives sliding-window differentiable reduced-order simulation, enabling stress reconstruction, faster computation, and comparison with marker-based feedback."
+           width="1930" height="821" style="width: 100%; height: auto;" aria-describedby="teaser-caption">
+      <h2 id="teaser-caption" class="caption is-size-6 is-centered has-text-centered has-text-justified">
+        <strong>RealSimLoop</strong> continuously adapts deformable-object simulations to real-world interactions using multi-view vision feedback.
+        <strong>(a)</strong> A sliding-window objective aligns images rendered with 3D Gaussian Splatting to camera observations, updating material parameters through differentiable reduced-order simulation.
+        <strong>(b)</strong> The adapted simulation recovers physical stress fields that can be visualized from novel viewpoints.
+        <strong>(c)</strong> Neural-subspace simulation accelerates the forward and backward computations, achieving a 6.23&times; speedup over the full-space baseline in the demonstrated example.
+        <strong>(d)</strong> The framework also supports marker-based motion capture; in this comparison, vision feedback reduces the average sim-to-real error from 7.1 mm to 4.6 mm.
+      </h2>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="abstract">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Abstract</h2>
+        <div class="content has-text-justified">
+          <p>Observing a deformable object reveals its surface motion, but many applications also need its internal stress, material properties, and interaction forces. RealSimLoop combines differentiable physical simulation with vision feedback to keep a simulated object aligned with its real-world behavior.</p>
+          <p>A neural reduced-order model makes both simulation and gradient computation more efficient. Coupled with differentiable 3D Gaussian Splatting, it allows camera observations to guide material-parameter updates within a sliding time window. This continuous adaptation tracks changing stiffness and compensates for simulation mismatch. We demonstrate the framework through robotic manipulation, multi-material structures, temperature-dependent stiffness tracking, force prediction, and stress visualization.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="video">
+  <div class="container is-max-desktop">
+    <h2 class="title is-3 has-text-centered">Video</h2>
+    <div class="publication-video">
+      <iframe src="https://www.youtube.com/embed/1HF4mFlgFvI" title="RealSimLoop project video"
+              loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+    </div>
+    <p class="has-text-centered video-link"><a href="https://www.youtube.com/watch?v=1HF4mFlgFvI">Watch on YouTube</a></p>
+  </div>
+</section>
+
+<section class="section" id="overview">
+  <div class="container is-max-desktop">
+    <h2 class="title is-3">Method Overview</h2>
+    <figure class="research-figure">
+      <a href="./static/images/fig-framework-final.webp" target="_blank" rel="noopener" aria-label="Open the method overview at full resolution">
+        <img src="./static/images/fig-framework-final.webp" width="2400" height="1166" loading="lazy" decoding="async"
+             alt="RealSimLoop pipeline connecting reduced-order simulation, geometry mapping, differentiable rendering, and a sliding window of vision feedback.">
+      </a>
+      <figcaption class="content has-text-justified">The forward pass simulates deformation in a neural subspace, maps the deformed mesh to 3D Gaussians, and renders the scene. Image differences accumulated over recent frames provide gradients for updating material properties and Gaussian orientations, closing the loop between observation and simulation.</figcaption>
+    </figure>
+    <div class="columns method-steps">
+      <div class="column">
+        <h3 class="title is-5">Efficient physical simulation</h3>
+        <p>A learned neural subspace reduces the number of simulation variables and accelerates forward and backward computation.</p>
+      </div>
+      <div class="column">
+        <h3 class="title is-5">Dense visual feedback</h3>
+        <p>Differentiable rendering connects camera images to physical parameters through the simulated geometry.</p>
+      </div>
+      <div class="column">
+        <h3 class="title is-5">Continuous adaptation</h3>
+        <p>A sliding window of recent observations supports online updates as material properties and interactions change.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="results">
+  <div class="container is-max-desktop">
+    <h2 class="title is-3">Applications and Results</h2>
+
+    <article class="research-result">
+      <h3 class="title is-4">Deformable Object Manipulation</h3>
+      <div class="content has-text-justified">
+        <p>Two robot arms twist and stretch a soft bar while visual feedback adapts its simulated material properties. After adaptation, shape-control commands optimized in simulation are applied to the physical robot setup. The resulting geometry more closely matches the scanned target, and the simulation also recovers the internal von Mises stress field.</p>
+      </div>
+      <figure class="research-figure portrait-figure">
+        <a href="./static/images/fig-dualarm-target.webp" target="_blank" rel="noopener" aria-label="Open the robot manipulation results at full resolution">
+          <img src="./static/images/fig-dualarm-target.webp" width="2400" height="4674" loading="lazy" decoding="async"
+               alt="Three dual-arm robot target shapes, their simulated results, scan-distance distributions, and reconstructed stress fields.">
+        </a>
+        <figcaption class="content has-text-justified">Physical target shapes and adapted simulations are compared using scanned point clouds. The error distributions and stress maps show the geometric and physical information available after adaptation.</figcaption>
+      </figure>
+    </article>
+
+    <article class="research-result">
+      <h3 class="title is-4">Multi-Material Identification and Stress Reconstruction</h3>
+      <div class="content has-text-justified">
+        <p>A cable-driven Eiffel Tower structure contains two silicone materials with different stiffnesses. RealSimLoop estimates their Young's moduli separately, aligns the simulated deformation with visual observations, and renders the reconstructed stress field from new viewpoints.</p>
+      </div>
+      <figure class="research-figure">
+        <a href="./static/images/fig-eiffel-tower.webp" target="_blank" rel="noopener" aria-label="Open the multi-material results at full resolution">
+          <img src="./static/images/fig-eiffel-tower.webp" width="2400" height="1680" loading="lazy" decoding="async"
+               alt="Multi-material Eiffel Tower: observed and simulated shapes, novel-view stress maps, stiffness convergence, and computation time.">
+        </a>
+        <figcaption class="content has-text-justified">Material estimates converge toward the two reference stiffnesses. The reduced-order implementation lowers computation time from 1.36 s to 0.18 s per frame in this experiment, a 7.56&times; speedup.</figcaption>
+      </figure>
+      <details class="research-details">
+        <summary>External force prediction</summary>
+        <div class="content has-text-justified">
+          <p>The reconstructed physical state also supports cable-force prediction. Below, predicted tensions are compared with force-sensor measurements across five target configurations.</p>
+        </div>
+        <figure class="research-figure portrait-figure">
+          <a href="./static/images/fig-eiffel-tower-sup.webp" target="_blank" rel="noopener" aria-label="Open the force prediction results at full resolution">
+            <img src="./static/images/fig-eiffel-tower-sup.webp" width="2400" height="3456" loading="lazy" decoding="async"
+                 alt="Cable-driven target configurations and predicted versus measured forces for three cables.">
+          </a>
+          <figcaption class="content has-text-justified">Predicted and measured cable tensions across changing target configurations.</figcaption>
+        </figure>
+      </details>
+    </article>
+
+    <article class="research-result">
+      <h3 class="title is-4">Tracking Temperature-Dependent Stiffness</h3>
+      <div class="content has-text-justified">
+        <p>A soft specimen combines a polycaprolactone truss with a silicone body. As it cools from 45&deg;C to 27&deg;C, its stiffness increases. Online adaptation follows the changing mechanical response, reflected in both the measured push force and the estimated Young's modulus.</p>
+      </div>
+      <figure class="research-figure portrait-figure">
+        <a href="./static/images/fig-gingerbread-real.webp" target="_blank" rel="noopener" aria-label="Open the temperature experiment at full resolution">
+          <img src="./static/images/fig-gingerbread-real.webp" width="2400" height="2777" loading="lazy" decoding="async"
+               alt="Physical, thermal, and simulated views at three temperatures, with push-force and estimated-stiffness curves over time.">
+        </a>
+        <figcaption class="content has-text-justified">Representative frames during cooling, together with force measurements and the online stiffness estimate.</figcaption>
+      </figure>
+    </article>
+
+    <article class="research-result">
+      <h3 class="title is-4">Online Adaptation to Changing Materials</h3>
+      <div class="content has-text-justified">
+        <p>In a controlled dynamic experiment, Young's modulus changes in steps from 10 to 40 kPa. The online estimate follows these changes, while an offline fit retains a single constant value. Continuous updates reduce deformation error as the material changes.</p>
+      </div>
+      <figure class="research-figure">
+        <a href="./static/images/fig-gingerbread-show.webp" target="_blank" rel="noopener" aria-label="Open the online and offline comparison at full resolution">
+          <img src="./static/images/fig-gingerbread-show.webp" width="2400" height="2242" loading="lazy" decoding="async"
+               alt="Deformations at four stiffness levels, stress fields over time, and online versus offline stiffness and error curves.">
+        </a>
+        <figcaption class="content has-text-justified">Deformation at different stiffness levels, stress reconstruction during impact, and the resulting parameter-tracking and simulation-error curves.</figcaption>
+      </figure>
+    </article>
+  </div>
+</section>
+
+<section class="section" id="evaluation">
+  <div class="container is-max-desktop">
+    <h2 class="title is-3">Evaluation</h2>
+    <h3 class="title is-4">Computational Efficiency</h3>
+    <div class="content has-text-justified">
+      <p>The neural subspace accelerates online identification across the reported reduced-order experiments. Times below include forward simulation, gradient computation, and 3D Gaussian Splatting on an NVIDIA RTX 4090.</p>
+    </div>
+    <div class="table-container">
+      <table class="table is-fullwidth is-striped performance-table">
+        <caption>Average computation time per frame (paper, Table 1)</caption>
+        <thead><tr><th scope="col">Experiment</th><th scope="col">Full space</th><th scope="col">Reduced order</th><th scope="col">Speedup</th></tr></thead>
+        <tbody>
+          <tr><th scope="row">Material Bar</th><td>3.30 s</td><td>0.53 s</td><td>6.23&times;</td></tr>
+          <tr><th scope="row">Eiffel Tower</th><td>1.36 s</td><td>0.18 s</td><td>7.56&times;</td></tr>
+          <tr><th scope="row">Dinosaur</th><td>7.77 s</td><td>1.01 s</td><td>7.69&times;</td></tr>
+          <tr><th scope="row">Gingerbread Joy</th><td>1.46 s</td><td>0.58 s</td><td>2.52&times;</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="is-size-7">These are experiment-specific timings. The high-speed ball case uses full-space simulation because the reduced-order solver did not converge.</p>
+
+    <details class="research-details">
+      <summary>Vision feedback versus marker-based observations</summary>
+      <div class="content has-text-justified">
+        <p>The dinosaur experiment compares dense image feedback with sparse marker trajectories. Vision feedback produces a more stable material estimate and lower deformation error in this comparison.</p>
+      </div>
+      <figure class="research-figure portrait-figure">
+        <a href="./static/images/fig-dinosaur-show.webp" target="_blank" rel="noopener" aria-label="Open the vision and marker comparison at full resolution">
+          <img src="./static/images/fig-dinosaur-show.webp" width="2400" height="3361" loading="lazy" decoding="async"
+               alt="Dinosaur experiment comparing visual and marker observations, spatial errors, stiffness estimates, and L2 error distributions.">
+        </a>
+        <figcaption class="content has-text-justified">Observation types, reconstructed deformations, material estimates, and error distributions for vision-based and marker-based adaptation.</figcaption>
+      </figure>
+    </details>
+    <details class="research-details">
+      <summary>Ablation: subspace dimension, window size, and camera count</summary>
+      <div class="content has-text-justified">
+        <p>Subspace dimension and window size trade computation time for reconstruction accuracy. Camera count also affects the cost and quality of visual feedback; the plots report these trends in the dinosaur experiment.</p>
+      </div>
+      <figure class="research-figure">
+        <a href="./static/images/fig-ablation.webp" target="_blank" rel="noopener" aria-label="Open the ablation study at full resolution">
+          <img src="./static/images/fig-ablation.webp" width="2400" height="1110" loading="lazy" decoding="async"
+               alt="Ablation plots of L2 error and update time against subspace dimension, sliding-window size, and number of cameras.">
+        </a>
+        <figcaption class="content has-text-justified">Accuracy and update-time tradeoffs under different parameter settings.</figcaption>
+      </figure>
+    </details>
+  </div>
+</section>
+
+<section class="section" id="BibTeX">
+  <div class="container is-max-desktop content">
+    <h2 class="title is-3">BibTeX</h2>
+    <pre><code>@inproceedings{cen2026realsimloop,
+  title = {RealSimLoop: Online Real-to-Sim Adaptation via Differentiable
+           Reduced-Order Simulation with Vision Feedback},
+  author = {Cen, Zhihao and Xian, Chuhua and Sun, Hailin and Liufu, Yuliang
+            and Zhang, Zhen and Chu, Xiangyu and Cai, Hongmin
+            and Zhang, Yunbo and Fang, Guoxin},
+  booktitle = {SIGGRAPH Asia 2026 Conference Papers},
+  year = {2026},
+  doi = {10.1145/3829340.3842376},
+  url = {https://arxiv.org/abs/2609.09828}
+}</code></pre>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="container">
+    <div class="columns is-centered">
+      <div class="column is-8">
+        <div class="content has-text-centered">
+          <p>Website template from <a href="https://github.com/nerfies/nerfies.github.io">Nerfies</a>.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+</body>
+</html>
